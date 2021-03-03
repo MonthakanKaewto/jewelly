@@ -1,18 +1,48 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png">
-    <HelloWorld msg="Welcome to Your Vue.js App"/>
+    <b-container>
+      <br />
+      <b-row>
+        <b-col cols="lg-4" v-for="index in cardList" :key="index">
+          <Product
+            :img="index.img"
+            :price="index.price"
+            :nameProduct="index.nameProduct"
+            @update-cart="sub"
+          />
+        </b-col>
+      </b-row>
+    </b-container>
+    <b-modal id="bv-modal-example" hide-footer>
+      <template #modal-title class="text-center">แจ้งเตือน!!</template>
+      <div class="d-block text-center">
+        <p>หยิบสินค้าเรียบร้อย!!</p>
+      </div>
+      <b-button class="mt-3" block @click="$bvModal.hide('bv-modal-example')"
+        >ปิด</b-button
+      >
+    </b-modal>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
-import HelloWorld from '@/components/HelloWorld.vue'
-
+import Product from "@/components/product.vue";
 export default {
-  name: 'Home',
+  name: "Home",
+  props: {
+    cardList: Array
+  },
   components: {
-    HelloWorld
+    Product
+  },
+  data() {
+    return {};
+  },
+  methods: {
+    sub(value) {
+      this.$emit("update-cart", value);
+    }
   }
-}
+};
 </script>
